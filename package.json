@@ -1,14 +1,19 @@
 {
   "name": "me",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "astro": "^1.5.2"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
