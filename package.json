@@ -1,6 +1,5 @@
 {
   "name": "me",
-  "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "astro": "^1.5.2"
+    "astro": "^1.5.2",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
