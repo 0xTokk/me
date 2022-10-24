@@ -1,23 +1,25 @@
 const main = async () => {
   const [owner, randomPerson] = await hre.ethers.getSigners();
-  const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
-  const waveContract = await waveContractFactory.deploy();
-  await waveContract.deployed();
+  const guestbookContractFactory = await hre.ethers.getContractFactory("Guestbook");
+  const guestbookContract = await guestbookContractFactory.deploy();
+  await guestbookContract.deployed();
 
-  console.log("Contract deployed to:", waveContract.address);
+  console.log("Contract deployed to:", guestbookContract.address);
   console.log("Contract deployed by:", owner.address);
 
-  await waveContract.getTotalWaves();
+  await guestbookContract.getGuestCount();
 
-  const firstWaveTxn = await waveContract.wave();
-  await firstWaveTxn.wait();
+  const firstSignTxn = await guestbookContract.sign('Hello');
+  await firstSignTxn.wait();
 
-  await waveContract.getTotalWaves();
+  await guestbookContract.getGuestCount();
 
-  const secondWaveTxn = await waveContract.connect(randomPerson).wave();
-  await secondWaveTxn.wait();
+  const secondSignTxn = await guestbookContract.connect(randomPerson).sign('Hola');
+  await secondSignTxn.wait();
 
-  await waveContract.getTotalWaves();
+  await guestbookContract.getGuestCount();
+  const guestbook = await guestbookContract.getGuests();
+  console.log({guestbook})
 };
 
 const runMain = async () => {
