@@ -7,15 +7,13 @@ declare global {
 }
 
 const getEthereumObject = () => window.ethereum;
-
 /*
- * This function returns the first linked account found.
+ * findMetaMaskAccount returns the first linked account found.
  * If there is no account linked, it will return null.
  */
 async function findMetaMaskAccount() {
   try {
     const ethereum = getEthereumObject();
-
     // First make sure we have access to the Ethereum object.
     if (!ethereum) {
       console.error("Make sure you have Metamask!");
@@ -40,25 +38,41 @@ async function findMetaMaskAccount() {
 };
 
 export default function Sign() {
+	const [currentAccount, setCurrentAccount] = createSignal();
+
+  async function connectWallet() {
+    try {
+      const ethereum = getEthereumObject();
+      if (!ethereum) {
+        alert("You need to install MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 createEffect(async () => {
-
 	const account = await findMetaMaskAccount();
 	if (account !== null) {
 		setCurrentAccount(account);
 	}
 
-  onCleanup ( () => {
-   console.log('🧹 cleanup!')
+  onCleanup (() => {
+   console.log('🧹 cleaned up!')
   });
 });
 
-
-const [currentAccount, setCurrentAccount] = createSignal("");
-
 	return (
 		<div>
-			<button onClick={() => console.log(currentAccount())}>Sign</button>
+			{!currentAccount() && <button onClick={connectWallet}>Sign</button>}
 		</div>
 	);
 }
