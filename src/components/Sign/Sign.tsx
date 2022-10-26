@@ -1,4 +1,6 @@
 import { createSignal, createEffect, onCleanup } from 'solid-js';
+import { ethers } from "ethers";
+import abi from "../../utils/Guestbook.json";
 
 declare global {
   interface Window {
@@ -59,20 +61,53 @@ export default function Sign() {
     }
   };
 
-createEffect(async () => {
-	const account = await findMetaMaskAccount();
-	if (account !== null) {
-		setCurrentAccount(account);
+	async function signGuestbook(message: string) {
+		const contractAddress = "0x53108575ba608C2EaedB93Ea3e42406cf506A21E"
+		const contractABI = abi.abi;
+
+		try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const guestbookContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        let count = await guestbookContract.getGuestCount();
+        console.log("Retrieved total guest count...", count.toNumber());
+        /*
+        * Execute the actual sign from your smart contract
+        */
+        const signTxn = await guestbookContract.sign(message);
+        console.log("Mining...", signTxn.hash);
+
+        await signTxn.wait();
+        console.log("Mined -- ", signTxn.hash);
+
+        count = await guestbookContract.getGuestCount();
+        console.log("Retrieved total guest count...", count.toNumber());
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
 	}
 
-  onCleanup (() => {
-   console.log('🧹 cleaned up!')
-  });
-});
+	createEffect(async () => {
+		const account = await findMetaMaskAccount();
+		if (account !== null) {
+			setCurrentAccount(account);
+		}
+	});
 
 	return (
 		<div>
-			{!currentAccount() && <button onClick={connectWallet}>Sign</button>}
+			{currentAccount() ? 
+				<button onClick={() => signGuestbook('hello')}>Sign guestbook</button>
+				:
+				<button onClick={connectWallet}>Connect wallet</button>
+			}
 		</div>
 	);
 }
