@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from 'solid-js';
 import { ethers } from "ethers";
-import {contractABI} from "../../helpers/Guestbook";
+import {contractABI} from "../../helpers/guestbook";
 import {GUESTBOOK_CONTRACT_ADDRESS} from '../../constants'
 import type {Guest} from "../../types"
 

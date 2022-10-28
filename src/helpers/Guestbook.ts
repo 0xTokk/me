@@ -1,4 +1,4 @@
-import abi from "./Guestbook.json";
+import abi from "./guestbook.json";
 import { ethers } from "ethers";
 import {GUESTBOOK_CONTRACT_ADDRESS} from '../constants'
 
