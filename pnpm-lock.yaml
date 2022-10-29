@@ -1,11 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@astrojs/solid-js': ^1.2.1
+  '@astrojs/solid-js': ^1.2.2
   '@nomicfoundation/hardhat-chai-matchers': ^1.0.4
   '@nomicfoundation/hardhat-toolbox': ^2.0.0
   '@nomiclabs/hardhat-ethers': ^2.2.1
-  astro: ^1.6.0
+  astro: ^1.6.1
   chai: ^4.3.6
   dotenv: ^16.0.3
   ethers: ^5.7.2
@@ -13,8 +13,8 @@ specifiers:
   solid-js: ^1.6.0
 
 dependencies:
-  '@astrojs/solid-js': 1.2.1_halbqdcynamd2xnv2lolknuczy
-  astro: 1.6.0_ts-node@10.9.1
+  '@astrojs/solid-js': 1.2.2_halbqdcynamd2xnv2lolknuczy
+  astro: 1.6.1_ts-node@10.9.1
   dotenv: 16.0.3
   solid-js: 1.6.0
 
@@ -114,16 +114,18 @@ packages:
       prismjs: 1.29.0
     dev: false
 
-  /@astrojs/solid-js/1.2.1_halbqdcynamd2xnv2lolknuczy:
-    resolution: {integrity: sha512-kTVrSv8sXptLFUHxlRNYQUZUF+1Oi88gsDd6Lut9MMstC9zCdqbTnAy+Z7r7sCmm9J5FgsXA3YSnyQfouup5ug==}
+  /@astrojs/solid-js/1.2.2_halbqdcynamd2xnv2lolknuczy:
+    resolution: {integrity: sha512-kC16HKo4LVQfecfRHqRsqaVMQ7wrziege0YieZipuY3HvsX4l3i4O+QCnyHQsJ9W5MMdUvFAtf1IP1nJAdvisA==}
     engines: {node: ^14.18.0 || >=16.12.0}
     peerDependencies:
       solid-js: ^1.4.3
     dependencies:
       babel-preset-solid: 1.6.0_@babel+core@7.19.6
       solid-js: 1.6.0
+      vitefu: 0.1.0
     transitivePeerDependencies:
       - '@babel/core'
+      - vite
     dev: false
 
   /@astrojs/telemetry/1.0.1:
@@ -1813,8 +1815,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /astro/1.6.0_ts-node@10.9.1:
-    resolution: {integrity: sha512-e3UVJkhMiCQPd16w9aCxfMVEj/vs07qcLOWgWsA27BepiiYHvYebn+mfnJc8C7WeZyuTm9IcmwBtsZPoIJyFLA==}
+  /astro/1.6.1_ts-node@10.9.1:
+    resolution: {integrity: sha512-fECZFVxoSI0Yt76M57m6jf6jJ14I8IHfy0hR+WuahpWsbshijDBrK8RQ6pNwhaE1JzIbBQtYa34+BY0RSkwKNg==}
     engines: {node: ^14.18.0 || >=16.12.0, npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -1864,7 +1866,7 @@ packages:
       recast: 0.20.5
       rehype: 12.0.1
       resolve: 1.22.1
-      rollup: 2.78.1
+      rollup: 2.79.1
       semver: 7.3.8
       shiki: 0.11.1
       sirv: 2.0.2
@@ -1876,14 +1878,15 @@ packages:
       typescript: 4.8.4
       unist-util-visit: 4.1.1
       vfile: 5.3.5
-      vite: 3.1.8
-      vitefu: 0.1.0_vite@3.1.8
+      vite: 3.2.1
+      vitefu: 0.1.0_vite@3.2.1
       yargs-parser: 21.1.1
       zod: 3.19.1
     transitivePeerDependencies:
       - less
       - sass
       - stylus
+      - sugarss
       - supports-color
       - terser
       - ts-node
@@ -6350,8 +6353,8 @@ packages:
       sprintf-js: 1.1.2
     dev: false
 
-  /rollup/2.78.1:
-    resolution: {integrity: sha512-VeeCgtGi4P+o9hIg+xz4qQpRl6R401LWEXBmxYKOV4zlF82lyhgh2hTZnheFUbANE8l2A41F458iwj2vEYaXJg==}
+  /rollup/2.79.1:
+    resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -7421,14 +7424,15 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vite/3.1.8:
-    resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
+  /vite/3.2.1:
+    resolution: {integrity: sha512-ADtMkfHuWq4tskJsri2n2FZkORO8ZyhI+zIz7zTrDAgDEtct1jdxOg3YsZBfHhKjmMoWLOSCr+64qrEDGo/DbQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
       less: '*'
       sass: '*'
       stylus: '*'
+      sugarss: '*'
       terser: ^5.4.0
     peerDependenciesMeta:
       less:
@@ -7437,18 +7441,20 @@ packages:
         optional: true
       stylus:
         optional: true
+      sugarss:
+        optional: true
       terser:
         optional: true
     dependencies:
       esbuild: 0.15.12
       postcss: 8.4.18
       resolve: 1.22.1
-      rollup: 2.78.1
+      rollup: 2.79.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
 
-  /vitefu/0.1.0_vite@3.1.8:
+  /vitefu/0.1.0:
     resolution: {integrity: sha512-5MQSHP9yr0HIve8q4XNb7QXfO1P4tzZDZP99qH0FM5ClcwYddeGXRDQ4TQYRUeXLjZ+vLecirHtGNpwFFUF7sw==}
     peerDependencies:
       vite: ^3.0.0
@@ -7457,7 +7463,18 @@ packages:
         optional: true
     dependencies:
       import-meta-resolve: 2.1.0
-      vite: 3.1.8
+    dev: false
+
+  /vitefu/0.1.0_vite@3.2.1:
+    resolution: {integrity: sha512-5MQSHP9yr0HIve8q4XNb7QXfO1P4tzZDZP99qH0FM5ClcwYddeGXRDQ4TQYRUeXLjZ+vLecirHtGNpwFFUF7sw==}
+    peerDependencies:
+      vite: ^3.0.0
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      import-meta-resolve: 2.1.0
+      vite: 3.2.1
     dev: false
 
   /vscode-css-languageservice/6.1.1:
