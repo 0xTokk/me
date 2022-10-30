@@ -1,9 +1,7 @@
-const getEthereumObject = () => window.ethereum;
-
 // getAccount returns the first linked account found.
 async function getAccount() {
   try {
-    const ethereum = getEthereumObject();
+    const {ethereum} = window;
     // First make sure we have access to the Ethereum object.
     if (!ethereum) {
       console.error("Make sure you have Metamask installed!");
@@ -30,7 +28,7 @@ async function getAccount() {
 
 async function connectWallet() {
   try {
-    const ethereum = getEthereumObject();
+    const {ethereum} = window;
 
     if (!ethereum) {
       alert("You need to install MetaMask!");
@@ -49,4 +47,4 @@ async function connectWallet() {
   }
 };
 
-export {connectWallet, getAccount}
+export {getAccount, connectWallet}

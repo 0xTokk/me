@@ -1,59 +1,8 @@
-import abi from "./guestbook.json";
 import { ethers } from "ethers";
+import abi from "./guestbook.json";
 import {GUESTBOOK_CONTRACT_ADDRESS} from '../constants'
 
 export const contractABI = abi.abi;
-
-const getEthereumObject = () => window.ethereum;
-
-// findMetaMaskAccount returns the first linked account found.
-async function getMetaMaskAccount() {
-  try {
-    const ethereum = getEthereumObject();
-    // First make sure we have access to the Ethereum object.
-    if (!ethereum) {
-      console.error("Make sure you have Metamask installed!");
-      return null;
-    }
-
-    console.log("We have the Ethereum object", ethereum);
-    const accounts = await ethereum.request({ method: "eth_accounts" });
-
-    if (accounts.length !== 0) {
-      const account = accounts[0];
-      console.log("Found an authorized account:", account);
-      return account;
-
-    } else {
-      console.error("No authorized account found");
-      return null;
-    }
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-
-async function connectWallet() {
-  try {
-    const ethereum = getEthereumObject();
-
-    if (!ethereum) {
-      alert("You need to install MetaMask!");
-      return;
-    }
-
-    const accounts = await ethereum.request({
-      method: "eth_requestAccounts",
-    });
-
-    console.log("Connected", accounts[0]);
-    return accounts[0];
-
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 function getContract() {
   try {
@@ -79,9 +28,8 @@ function getContract() {
 } 
 
 async function signGuestbook(message: string) {
-
   try {
-    const guestbookContract = getContract();
+    const guestbookContract = await getContract();
 
     if (guestbookContract) {
       let count = await guestbookContract.getGuestCount();
@@ -105,8 +53,7 @@ async function signGuestbook(message: string) {
   }
 }
 
-async function getGuestsList() {
-
+async function getGuestbook() {
   try {
     const guestbookContract = getContract();
 
@@ -122,3 +69,5 @@ async function getGuestsList() {
     console.log(error);
   }
 }
+
+export {signGuestbook, getGuestbook}
