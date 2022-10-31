@@ -2,6 +2,7 @@ import { createSignal, createEffect } from 'solid-js';
 import type {Guest} from "../../types"
 import {getAccount, connectWallet} from '../../helpers/metamask'
 import {signGuestbook, getGuestbook} from '../../helpers/guestbook'
+import { trimWalletAddress } from '../../utils';
 
 export default function Sign() {
 	const [currentAccount, setCurrentAccount] = createSignal<string | null>();
@@ -43,7 +44,7 @@ export default function Sign() {
 				<button onClick={() => connectWallet()}>Connect wallet</button>
 			}
       {guestbook()?.map(guest => 
-        <p>{guest.wallet.slice(0,4)}...{guest.wallet.slice(-4)} says "{guest.message}"</p>
+        <p>{trimWalletAddress(guest.wallet)} says "{guest.message}"</p>
       )}
 		</div>
 	);
