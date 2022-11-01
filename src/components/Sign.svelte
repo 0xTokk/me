@@ -8,42 +8,42 @@
 <script lang="ts">
   let account: Promise<string | null> = getAccount();
   let guestbook: Promise<Guest[] | null> = getGuestbook();
+  let message: string = '';
+  // let status: string | null = null;
 
-  async function handleSignGuestbook(event: Event) {
-    event.preventDefault();
-    //@ts-ignore
-    const message = (event.currentTarget as HTMLFormElement).elements.message.value;
-    await signGuestbook(message);
+  async function handleSignGuestbook() {
+    const messageToSend = message;
+    message = '';
+    await signGuestbook(messageToSend);
     guestbook = getGuestbook();
 	}
 </script>
 
 <div>
-    <form on:submit={handleSignGuestbook}>
-      <label for="message">Message: </label>
-      <input type='text' placeholder="Leave a message" id="message" name="message" />
-      <button type="submit">Sign guestbook</button>
-    </form>
-    {#await account}
-      <p>...fetching account info</p>
-    {:then account}
-      {#if account === null}
-        <button on:click={connectWallet}>Connect wallet</button>
-      {:else}
+  {#await account}
+    <p>...getting account</p>
+  {:then account}
+    {#if account === null}
+      <button on:click={connectWallet}>Connect wallet</button>
+    {:else}
+      <form on:submit|preventDefault={handleSignGuestbook}>
+        <label for="message">Message: </label>
+        <input bind:value={message} type='text' placeholder="Your message" id="message" name="message" />
         <button on:click={handleSignGuestbook}>Sign guestbook</button>
-      {/if}
-    {:catch error}
-      <p style="color: red">{error.message}</p>
-    {/await}
-    {#await guestbook}
-      <p>...fetching guestbook</p>
-    {:then guestbook}
-      {#if guestbook}
-        {#each guestbook as guest (guest.id)}
-          <p>{trimWalletAddress(guest.wallet)} says "{guest.message}"</p>
-        {/each}
-      {/if}
-    {:catch error}
-      <p style="color: red">{error.message}</p>
-    {/await}
+      </form>
+    {/if}
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
+  {#await guestbook}
+    <p>...fetching guestbook</p>
+  {:then guestbook}
+    {#if guestbook}
+      {#each guestbook as guest (guest.id)}
+        <p>{trimWalletAddress(guest.wallet)} says "{guest.message}"</p>
+      {/each}
+    {/if}
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
 </div>
