@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-import Sign from '../components/Sign.svelte';
+import Guestbook from '../components/Guestbook.svelte';
 
 ---
 <Layout title="Hello, I am Tokk">
@@ -15,16 +15,11 @@ import Sign from '../components/Sign.svelte';
 		<ul role="list" class="link-card-grid">
 			<Card
 			href=""
-			title="Guestbook"
-			body="Connect your wallet and sign the guestbook."
-			/>
-			<Card
-			href=""
 			title="Writing"
 			body="A bunch of articles to help others to learn with me."
 			/>
 		</ul>
-		<Sign client:load />
+		<Guestbook client:load />
 	</main>
 </Layout>
 

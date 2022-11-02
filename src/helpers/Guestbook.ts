@@ -59,7 +59,7 @@ async function getGuestbook() {
 
     if (guestbookContract) {
       let guests = await guestbookContract.getGuests();
-      console.log("Retrieved guests...", {guests});
+      console.log("Retrieved guests...", guests);
       return guests;
       
     } else {
