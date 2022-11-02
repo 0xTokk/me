@@ -29,7 +29,7 @@
   {:else}
     <form on:submit|preventDefault={handleSignGuestbook}>
       <label for="message">Message: </label>
-      <input bind:value={message} type='text' placeholder="Your message" id="message" name="message" />
+      <input bind:value={message} type='text' placeholder="Your brief message" id="message" name="message" />
       <button on:click={handleSignGuestbook}><span>Sign guestbook</span></button>
     </form>
   {/if}
@@ -50,22 +50,33 @@
     background-color: white;
 		display: flex;
     flex-direction: column;
-    gap: 12px;
 		padding: 16px;
-		border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(var(--accent), 0.25);
+		border-radius: 8px;
 	}
+
+  form {
+    padding-block-start: 24px;
+    padding-block-end: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  input {
+    border: 1px solid rgb(var(--accent), 0.25);
+    border-radius: 8px;
+    padding: 12px;
+  }
   
   button {
     border: none;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-color: white;
     background-image: var(--accent-gradient);
     background-size: 400%;
-    padding: 3px;
     background-position: 100%;
     transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 2px;
     cursor: pointer;
   }
 
@@ -74,17 +85,20 @@
     justify-content: center;
     align-items: center;
 		color: #111;
+    font-weight: 600;
 		background-color: white;
 		opacity: 0.8;
-    font-weight: 600;
     padding: 12px;
 		border-radius: 6px;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
-	button:is(:hover, :focus-within) {
+	button:hover, 
+  button:focus {
 		background-position: 0;
 	}
-	button:is(:hover, :focus-within) span {
+	button:hover span, 
+  button:focus span {
 		color: rgb(var(--accent));
 	}
 
@@ -97,7 +111,6 @@
 	h2 {
 		margin: 0;
 		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	p {
