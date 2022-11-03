@@ -14,6 +14,10 @@
     guestbook = await getGuestbook();
 	});
 
+  async function handleConnectWallet() {
+    account = await connectWallet();
+  }
+ 
   async function handleSignGuestbook() {
     const messageValue = message;
     message = '';
@@ -25,7 +29,7 @@
 <div class="container">
   <h2>Guestbook <span>&rarr;</span></h2>
   {#if account === null}
-    <button on:click={connectWallet}>Connect wallet</button>
+    <button on:click={handleConnectWallet}><span>Connect wallet</span></button>
   {:else}
     <form on:submit|preventDefault={handleSignGuestbook}>
       <label for="message">Message: </label>
@@ -84,14 +88,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-		color: #111;
+    color: #111;
     font-weight: 600;
-		background-color: white;
-		opacity: 0.8;
+    background-color: white;
+    opacity: 0.8;
     padding: 12px;
-		border-radius: 6px;
+    border-radius: 6px;
     transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
+  }
 
 	button:hover, 
   button:focus {
