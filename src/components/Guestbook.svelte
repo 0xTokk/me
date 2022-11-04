@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type {Guest} from "../types"
-  import {getAccount, connectWallet} from '../helpers/metamask'
-  import {signGuestbook, getGuestbook} from '../helpers/guestbook'
+  import {getAccount, connectWallet} from '../helpers/metamask.helper'
+  import {signGuestbook, getGuestbook} from '../helpers/guestbook.helper'
   import { trimWalletAddress } from '../utils';
 
   let account: string | null = null;
