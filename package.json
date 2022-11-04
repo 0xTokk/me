@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/svelte": "^1.0.2",
-    "astro": "^1.6.1",
+    "astro": "^1.6.3",
     "dotenv": "^16.0.3",
     "svelte": "^3.52.0"
   },
@@ -22,6 +22,6 @@
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "chai": "^4.3.6",
     "ethers": "^5.7.2",
-    "hardhat": "^2.12.1"
+    "hardhat": "^2.12.2"
   }
 }
