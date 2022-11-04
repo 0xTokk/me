@@ -5,8 +5,7 @@ declare global {
 }
 
 export interface Guest {
-  id: number;
   wallet: string;
+  timestamp: string;
   message: string;
-  signed: boolean;
 }

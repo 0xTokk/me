@@ -5,23 +5,19 @@
   import {signGuestbook, getGuestbook} from '../helpers/guestbook'
   import { trimWalletAddress } from '../utils';
 
-  let account: string | null;
-  let guestbook: Guest[] | null;
+  let account: string | null = null;
+  let guestbook: Guest[] | null = null;
   let message: string = '';
 
   onMount(async () => {
-		account =  await getAccount();
     guestbook = await getGuestbook();
+		account =  await getAccount();
 	});
 
-  async function handleConnectWallet() {
-    account = await connectWallet();
-  }
- 
   async function handleSignGuestbook() {
-    const messageValue = message;
+    const messageForGuestbook = message;
     message = '';
-    await signGuestbook(messageValue);
+    await signGuestbook(messageForGuestbook);
     guestbook = await getGuestbook();
 	}
 </script>
@@ -29,25 +25,50 @@
 <div class="container">
   <h2>Guestbook <span>&rarr;</span></h2>
   {#if account === null}
-    <button on:click={handleConnectWallet}><span>Connect wallet</span></button>
+    <p>Connect your wallet to sign the guestbook.</p>
+    <button 
+      class="connect-wallet-btn" 
+      on:click={connectWallet}
+    >
+      <span>Connect wallet</span>
+    </button>
   {:else}
+    <p>Leave a message in the guestbook.</p>
     <form on:submit|preventDefault={handleSignGuestbook}>
       <label for="message">Message: </label>
-      <input bind:value={message} type='text' placeholder="Your brief message" id="message" name="message" />
-      <button on:click={handleSignGuestbook}><span>Sign guestbook</span></button>
+      <input 
+        bind:value={message} 
+        type='text' 
+        placeholder="Your brief message" 
+        id="message" 
+        name="message" 
+      />
+      <button type="submit"><span>Sign guestbook</span></button>
     </form>
   {/if}
-
-  <div class="message-list">
-    {#if guestbook}
-      {#each guestbook as guest}
-      <p>{trimWalletAddress(guest.wallet)} says "{guest.message}"</p>
-      {/each}
-    {:else} 
-      <p>loading guestbook...</p>
-    {/if}
-  </div>
+    <div class="message-list">
+      {#if guestbook !== null}
+        {#if guestbook.length}
+          {#each guestbook as {wallet, timestamp, message} (timestamp)}
+          <div>
+            <div class="meta">
+              <span>{trimWalletAddress(wallet)}</span>
+              <span>{timestamp}</span>
+            </div>
+            <div class="message">
+              <p>{message}</p>
+            </div>
+          </div>
+          {/each}
+        {:else if guestbook.length === 0}
+          <p>The guestbook hasn't been signed yet!</p>
+        {/if}
+      {:else}
+        <p>Cannot retrieve guestbook.</p> 
+      {/if}
+    </div>
 </div>
+
 
 <style>
 	.container {
@@ -58,6 +79,12 @@
     border: 1px solid rgb(var(--accent), 0.25);
 		border-radius: 8px;
 	}
+
+  .connect-wallet-btn {
+    align-self: flex-start;
+    margin-block-start: 24px;
+    margin-block-end: 32px;
+  }
 
   form {
     padding-block-start: 24px;
@@ -110,6 +137,31 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    margin-block-end: 6px;
+  }
+  
+  .meta span {
+    color: #757575;
+    font-size: calc(14 / 16 * 1rem);
+  }
+
+  .message {
+    border-radius: 1px 6px 6px 6px;
+    background-image: var(--accent-gradient);
+    background-size: 400%;
+  }
+
+  .message p {
+    background-color: white;
+    opacity: 0.95;
+    color: #111;
+    padding-block: 10px; 
+    padding-inline: 14px;
   }
 
 	h2 {

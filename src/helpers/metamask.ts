@@ -9,7 +9,9 @@ async function getAccount() {
     }
 
     console.log("We have the Ethereum object", ethereum);
-    const accounts = await ethereum.request({ method: "eth_accounts" });
+    const accounts = await ethereum.request({ 
+      method: "eth_accounts" 
+    });
 
     if (accounts.length !== 0) {
       const account = accounts[0];
@@ -31,8 +33,8 @@ async function connectWallet() {
     const {ethereum} = window;
 
     if (!ethereum) {
-      alert("You need to install MetaMask!");
-      return;
+      console.error("Make sure you have Metamask installed!");
+      return null;
     }
 
     const accounts = await ethereum.request({
@@ -44,6 +46,7 @@ async function connectWallet() {
 
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
