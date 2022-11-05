@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import abi from "./guestbook-abi.json";
+import abi from "./guestbook.abi.json";
 import {GUESTBOOK_CONTRACT_ADDRESS} from '../constants'
 import type {Guest} from '../types'
 
