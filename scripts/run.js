@@ -17,17 +17,19 @@ const main = async () => {
     hre.ethers.utils.formatEther(contractBalance)
   );
   // test sign function
-  let signTxn = await guestbookContract.sign('Hello');
-  await signTxn.wait(); // Wait for the transaction to be mined
-  // get balance to see what happened 
+  const signTxn1 = await guestbookContract.sign('Hello');
+  await signTxn1.wait();
+
+  const signTxn2 = await guestbookContract.sign('Hola');
+  await signTxn2.wait();
+  // check balance to make sure it is deducted
   contractBalance = await hre.ethers.provider.getBalance(guestbookContract.address);
   console.log(
     "Contract balance:",
     hre.ethers.utils.formatEther(contractBalance)
   );
   // test getGuestCount function
-  let guestCount;
-  guestCount = await guestbookContract.getGuestCount();
+  const guestCount = await guestbookContract.getGuestCount();
   console.log(guestCount.toNumber());
   // test getGuestbook function
   const guestbook = await guestbookContract.getGuestbook();

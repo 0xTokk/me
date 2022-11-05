@@ -95,6 +95,7 @@
   }
 
   input {
+    flex: 1;
     border: 1px solid rgb(var(--accent), 0.25);
     border-radius: 8px;
     padding: 12px;
@@ -158,7 +159,7 @@
 
   .message p {
     background-color: white;
-    opacity: 0.95;
+    opacity: 0.90;
     color: #111;
     padding-block: 10px; 
     padding-inline: 14px;
