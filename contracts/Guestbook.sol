@@ -28,8 +28,8 @@ contract Guestbook {
 
     function sign(string memory _message) public {
         require(
-            lastSignedAt[msg.sender] + 15 minutes < block.timestamp,
-            "Wait 15m"
+            lastSignedAt[msg.sender] + 15 seconds < block.timestamp,
+            "Spam block: You can only sign once every 15 seconds!"
         );
 
         lastSignedAt[msg.sender] = block.timestamp;
@@ -42,7 +42,7 @@ contract Guestbook {
         seed = (block.difficulty + block.timestamp + seed) % 100;
         console.log("Random number generated: %d", seed);
         // Give a 50% chance that the user wins the prize.
-        if (seed < 16) {
+        if (seed < 50) {
             console.log("%s won!", msg.sender);
 
             uint256 prizeAmount = 0.0001 ether;

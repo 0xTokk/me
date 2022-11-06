@@ -1,24 +1,103 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import type {Guest} from "../types"
   import {getAccount, connectWallet} from '../helpers/metamask.helper'
-  import {signGuestbook, getGuestbook} from '../helpers/guestbook.helper'
+  import {getContract} from '../helpers/guestbook.helper'
   import { trimWalletAddress } from '../utils';
 
   let account: string | null = null;
   let guestbook: Guest[] | null = null;
   let message: string = '';
 
+  async function getGuestbook(): Promise<Guest[]| null> {
+    try {
+      const guestbookContract = getContract();
+
+      if (guestbookContract) {
+        let guestbook = await guestbookContract.getGuestbook();
+        console.log("getGuestbook: Retrieved guests...", guestbook);
+
+        if (!guestbook.length) {
+          return guestbook;
+        }
+
+        return guestbook.map((guest: Guest) => ({
+            wallet: guest.wallet,
+            timestamp: new Date(Number(guest.timestamp) * 1000).toDateString(),
+            message: guest.message
+        }));
+
+      } else {
+        console.log('guestbookContract not found');
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async function signGuestbook(message: string): Promise<void> {
+    try {
+      const guestbookContract = getContract();
+
+      if (guestbookContract) {
+        let count = await guestbookContract.getGuestCount();
+        console.log("signGuestbook: Guest count...", count.toNumber());
+
+        // actually write to the blockchain
+        const signTxn = await guestbookContract.sign(message, {gasLimit: 300000});
+        console.log("Mining...", signTxn.hash);
+
+        await signTxn.wait();
+        console.log("Mined -- ", signTxn.hash);
+
+        count = await guestbookContract.getGuestCount();
+        console.log("signGuestbook: Guest count...", count.toNumber());
+
+      } else {
+        console.log('guestbookContract not found');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function onNewSignGuestbook(wallet: string, timestamp: number, message: string) {
+    console.log("NewGuest", wallet, timestamp, message);
+
+    if (guestbook !== null) {
+      guestbook = [...guestbook, {
+        wallet: wallet,
+        timestamp: new Date(Number(timestamp) * 1000).toDateString(),
+        message: message,
+      }]
+    }
+  }  
+
   onMount(async () => {
-    guestbook = await getGuestbook();
 		account =  await getAccount();
+    guestbook = await getGuestbook();
+    const guestbookContract = getContract();
+
+    if (guestbookContract !== null) {
+      guestbookContract.on("NewGuest", onNewSignGuestbook);
+    }
+
 	});
+
+  onDestroy(() => {
+    const guestbookContract = getContract();
+
+    if (guestbookContract !== null) {
+      guestbookContract.off("NewGuest", onNewSignGuestbook);
+    }
+  })
 
   async function handleSignGuestbook() {
     const messageForGuestbook = message;
     message = '';
     await signGuestbook(messageForGuestbook);
-    guestbook = await getGuestbook();
 	}
 </script>
 
@@ -49,7 +128,7 @@
     <div class="message-list">
       {#if guestbook !== null}
         {#if guestbook.length}
-          {#each guestbook as {wallet, timestamp, message} (timestamp)}
+          {#each guestbook as {wallet, timestamp, message}}
           <div>
             <div class="meta">
               <span>{trimWalletAddress(wallet)}</span>
@@ -69,7 +148,6 @@
     </div>
 </div>
 
-
 <style>
 	.container {
     background-color: white;
@@ -88,7 +166,7 @@
 
   form {
     padding-block-start: 24px;
-    padding-block-end: 32px;
+    padding-block-end: 48px;
     display: flex;
     align-items: baseline;
     gap: 12px;
@@ -137,7 +215,7 @@
   .message-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
 
   .meta {

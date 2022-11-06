@@ -19,7 +19,7 @@ const main = async () => {
   // test sign function
   const signTxn1 = await guestbookContract.sign('Hello');
   await signTxn1.wait();
-
+  // this should cause an error
   const signTxn2 = await guestbookContract.sign('Hola');
   await signTxn2.wait();
   // check balance to make sure it is deducted

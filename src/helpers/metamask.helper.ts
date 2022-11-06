@@ -6,12 +6,11 @@ async function getAccount() {
     if (!ethereum) {
       console.error("Make sure you have Metamask installed!");
       return null;
+    } else {
+      console.log("We have the Ethereum object", ethereum);
     }
 
-    console.log("We have the Ethereum object", ethereum);
-    const accounts = await ethereum.request({ 
-      method: "eth_accounts" 
-    });
+    const accounts = await ethereum.request({method: "eth_accounts"});
 
     if (accounts.length !== 0) {
       const account = accounts[0];
